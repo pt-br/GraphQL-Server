@@ -1,13 +1,13 @@
 import express from 'express';
 import graphqlHTTP from 'express-graphql';
-import { schema } from './data/schema';
+import { Schema } from './data/schema';
 
 const app = express();
 
 const GRAPHQL_PORT = 8080;
 
 app.use('/graphql', graphqlHTTP({
-  schema: schema,
+  schema: Schema,
   graphiql: true
 }));
 

@@ -2,7 +2,7 @@
   "data": {
     "__schema": {
       "queryType": {
-        "name": "Root"
+        "name": "Query"
       },
       "mutationType": {
         "name": "Mutation"
@@ -11,21 +11,9 @@
       "types": [
         {
           "kind": "OBJECT",
-          "name": "Root",
+          "name": "Query",
           "description": null,
           "fields": [
-            {
-              "name": "viewer",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "User",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
             {
               "name": "node",
               "description": "Fetches an object given its ID",
@@ -52,12 +40,67 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "viewer",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
             }
           ],
           "inputFields": null,
           "interfaces": [],
           "enumValues": null,
           "possibleTypes": null
+        },
+        {
+          "kind": "SCALAR",
+          "name": "ID",
+          "description": "The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"4\"`) or integer (such as `4`) input value will be accepted as an ID.",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INTERFACE",
+          "name": "Node",
+          "description": "An object with an ID",
+          "fields": [
+            {
+              "name": "id",
+              "description": "The id of the object.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": [
+            {
+              "kind": "OBJECT",
+              "name": "User",
+              "ofType": null
+            }
+          ]
         },
         {
           "kind": "OBJECT",
@@ -81,19 +124,25 @@
               "deprecationReason": null
             },
             {
-              "name": "todos",
+              "name": "userId",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "phones",
               "description": null,
               "args": [
-                {
-                  "name": "status",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  },
-                  "defaultValue": "\"any\""
-                },
                 {
                   "name": "after",
                   "description": null,
@@ -137,31 +186,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "TodoConnection",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "totalCount",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "completedCount",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "Int",
+                "name": "PhoneConnection",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -176,54 +201,6 @@
               "ofType": null
             }
           ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "INTERFACE",
-          "name": "Node",
-          "description": "An object with an ID",
-          "fields": [
-            {
-              "name": "id",
-              "description": "The id of the object.",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": [
-            {
-              "kind": "OBJECT",
-              "name": "User",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "Todo",
-              "ofType": null
-            }
-          ]
-        },
-        {
-          "kind": "SCALAR",
-          "name": "ID",
-          "description": "The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"4\"`) or integer (such as `4`) input value will be accepted as an ID.",
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
           "enumValues": null,
           "possibleTypes": null
         },
@@ -249,7 +226,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "TodoConnection",
+          "name": "PhoneConnection",
           "description": "A connection to a list of items.",
           "fields": [
             {
@@ -277,7 +254,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "TodoEdge",
+                  "name": "PhoneEdge",
                   "ofType": null
                 }
               },
@@ -369,7 +346,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "TodoEdge",
+          "name": "PhoneEdge",
           "description": "An edge in a connection.",
           "fields": [
             {
@@ -378,7 +355,7 @@
               "args": [],
               "type": {
                 "kind": "OBJECT",
-                "name": "Todo",
+                "name": "Phone",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -408,7 +385,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "Todo",
+          "name": "Phone",
           "description": null,
           "fields": [
             {
@@ -428,7 +405,39 @@
               "deprecationReason": null
             },
             {
-              "name": "text",
+              "name": "phoneId",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "model",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "image",
               "description": null,
               "args": [],
               "type": {
@@ -438,28 +447,10 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
-            },
-            {
-              "name": "complete",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "Boolean",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
             }
           ],
           "inputFields": null,
-          "interfaces": [
-            {
-              "kind": "INTERFACE",
-              "name": "Node",
-              "ofType": null
-            }
-          ],
+          "interfaces": [],
           "enumValues": null,
           "possibleTypes": null
         },
@@ -469,7 +460,7 @@
           "description": null,
           "fields": [
             {
-              "name": "addTodo",
+              "name": "addPhone",
               "description": null,
               "args": [
                 {
@@ -480,7 +471,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "AddTodoInput",
+                      "name": "AddPhoneInput",
                       "ofType": null
                     }
                   },
@@ -489,14 +480,14 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "AddTodoPayload",
+                "name": "AddPhonePayload",
                 "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "changeTodoStatus",
+              "name": "removePhone",
               "description": null,
               "args": [
                 {
@@ -507,7 +498,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "ChangeTodoStatusInput",
+                      "name": "RemovePhoneInput",
                       "ofType": null
                     }
                   },
@@ -516,14 +507,14 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "ChangeTodoStatusPayload",
+                "name": "RemovePhonePayload",
                 "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "markAllTodos",
+              "name": "updatePhone",
               "description": null,
               "args": [
                 {
@@ -534,7 +525,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "INPUT_OBJECT",
-                      "name": "MarkAllTodosInput",
+                      "name": "UpdatePhoneInput",
                       "ofType": null
                     }
                   },
@@ -543,88 +534,7 @@
               ],
               "type": {
                 "kind": "OBJECT",
-                "name": "MarkAllTodosPayload",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "removeCompletedTodos",
-              "description": null,
-              "args": [
-                {
-                  "name": "input",
-                  "description": null,
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "INPUT_OBJECT",
-                      "name": "RemoveCompletedTodosInput",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "RemoveCompletedTodosPayload",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "removeTodo",
-              "description": null,
-              "args": [
-                {
-                  "name": "input",
-                  "description": null,
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "INPUT_OBJECT",
-                      "name": "RemoveTodoInput",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "RemoveTodoPayload",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "renameTodo",
-              "description": null,
-              "args": [
-                {
-                  "name": "input",
-                  "description": null,
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "INPUT_OBJECT",
-                      "name": "RenameTodoInput",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "RenameTodoPayload",
+                "name": "UpdatePhonePayload",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -638,12 +548,26 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "AddTodoInput",
+          "name": "AddPhoneInput",
           "description": null,
           "fields": null,
           "inputFields": [
             {
-              "name": "text",
+              "name": "model",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "image",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -677,21 +601,9 @@
         },
         {
           "kind": "OBJECT",
-          "name": "AddTodoPayload",
+          "name": "AddPhonePayload",
           "description": null,
           "fields": [
-            {
-              "name": "todoEdge",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "TodoEdge",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
             {
               "name": "viewer",
               "description": null,
@@ -728,33 +640,19 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "ChangeTodoStatusInput",
+          "name": "RemovePhoneInput",
           "description": null,
           "fields": null,
           "inputFields": [
             {
-              "name": "complete",
+              "name": "phoneId",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "Boolean",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "id",
-              "description": null,
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
+                  "name": "String",
                   "ofType": null
                 }
               },
@@ -781,21 +679,9 @@
         },
         {
           "kind": "OBJECT",
-          "name": "ChangeTodoStatusPayload",
+          "name": "RemovePhonePayload",
           "description": null,
           "fields": [
-            {
-              "name": "todo",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Todo",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
             {
               "name": "viewer",
               "description": null,
@@ -832,26 +718,12 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "MarkAllTodosInput",
+          "name": "UpdatePhoneInput",
           "description": null,
           "fields": null,
           "inputFields": [
             {
-              "name": "complete",
-              "description": null,
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Boolean",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "clientMutationId",
+              "name": "phoneId",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -863,268 +735,24 @@
                 }
               },
               "defaultValue": null
-            }
-          ],
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "MarkAllTodosPayload",
-          "description": null,
-          "fields": [
-            {
-              "name": "changedTodos",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "Todo",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
             },
             {
-              "name": "viewer",
+              "name": "phoneModel",
               "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "User",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "clientMutationId",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "INPUT_OBJECT",
-          "name": "RemoveCompletedTodosInput",
-          "description": null,
-          "fields": null,
-          "inputFields": [
-            {
-              "name": "clientMutationId",
-              "description": null,
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            }
-          ],
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "RemoveCompletedTodosPayload",
-          "description": null,
-          "fields": [
-            {
-              "name": "deletedTodoIds",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "viewer",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "User",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "clientMutationId",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "INPUT_OBJECT",
-          "name": "RemoveTodoInput",
-          "description": null,
-          "fields": null,
-          "inputFields": [
-            {
-              "name": "id",
-              "description": null,
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "clientMutationId",
-              "description": null,
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            }
-          ],
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "RemoveTodoPayload",
-          "description": null,
-          "fields": [
-            {
-              "name": "deletedTodoId",
-              "description": null,
-              "args": [],
               "type": {
                 "kind": "SCALAR",
-                "name": "ID",
+                "name": "String",
                 "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "viewer",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "User",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "clientMutationId",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "INPUT_OBJECT",
-          "name": "RenameTodoInput",
-          "description": null,
-          "fields": null,
-          "inputFields": [
-            {
-              "name": "id",
-              "description": null,
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
               },
               "defaultValue": null
             },
             {
-              "name": "text",
+              "name": "phoneImage",
               "description": null,
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "defaultValue": null
             },
@@ -1149,16 +777,16 @@
         },
         {
           "kind": "OBJECT",
-          "name": "RenameTodoPayload",
+          "name": "UpdatePhonePayload",
           "description": null,
           "fields": [
             {
-              "name": "todo",
+              "name": "viewer",
               "description": null,
               "args": [],
               "type": {
                 "kind": "OBJECT",
-                "name": "Todo",
+                "name": "User",
                 "ofType": null
               },
               "isDeprecated": false,

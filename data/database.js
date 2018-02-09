@@ -1,98 +1,105 @@
-/**
- * This file provided by Facebook is for non-commercial testing and evaluation
- * purposes only.  Facebook reserves all rights not expressly granted.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
- * FACEBOOK BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
- * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
+import User from './User';
+import Phone from './Phone';
+import ShortId from 'shortid';
 
-export class Todo {}
-export class User {}
+class Database {
+  constructor() {
+    console.log('[Database.js] Constructing database');
 
-// Mock authenticated ID
-const VIEWER_ID = 'me';
+    const userId = ShortId.generate();
+    this.user = new User(userId);
 
-// Mock user data
-const viewer = new User();
-viewer.id = VIEWER_ID;
-const usersById = {
-  [VIEWER_ID]: viewer,
-};
-
-// Mock todo data
-const todosById = {};
-const todoIdsByUser = {
-  [VIEWER_ID]: [],
-};
-let nextTodoId = 0;
-addTodo('Taste JavaScript', true);
-addTodo('Buy a unicorn', false);
-
-export function addTodo(text, complete) {
-  const todo = new Todo();
-  todo.complete = !!complete;
-  todo.id = `${nextTodoId++}`;
-  todo.text = text;
-  todosById[todo.id] = todo;
-  todoIdsByUser[VIEWER_ID].push(todo.id);
-  return todo.id;
-}
-
-export function changeTodoStatus(id, complete) {
-  const todo = getTodo(id);
-  todo.complete = complete;
-}
-
-export function getTodo(id) {
-  return todosById[id];
-}
-
-export function getTodos(status = 'any') {
-  const todos = todoIdsByUser[VIEWER_ID].map(id => todosById[id]);
-  if (status === 'any') {
-    return todos;
+    /**
+     * Mock some phones into user
+     */
+    this.insertPhone('iPhone 6', 'https://goo.gl/ndJdW9');
+    this.insertPhone('Galaxy S7', 'https://goo.gl/uanrHM');
   }
-  return todos.filter(todo => todo.complete === (status === 'completed'));
-}
 
-export function getUser(id) {
-  return usersById[id];
-}
+  /**
+   * This function will be called by GraphQL.
+   * It receives a text string, creates a new Phone instance and insert it to
+   * our User.
+   */
+  insertPhone(model, image) {
+    const phoneId = ShortId.generate();
+    const phones = this.getPhones();
 
-export function getViewer() {
-  return getUser(VIEWER_ID);
-}
+    const idIsUnique = this.checkUniqueId(phoneId, phones);
 
-export function markAllTodos(complete) {
-  const changedTodos = [];
-  getTodos().forEach(todo => {
-    if (todo.complete !== complete) {
-      todo.complete = complete;
-      changedTodos.push(todo);
+    if (!idIsUnique) {
+      this.insertPhone(model, image);
+      return false;
     }
-  });
-  return changedTodos.map(todo => todo.id);
-}
 
-export function removeTodo(id) {
-  const todoIndex = todoIdsByUser[VIEWER_ID].indexOf(id);
-  if (todoIndex !== -1) {
-    todoIdsByUser[VIEWER_ID].splice(todoIndex, 1);
+    const phone = new Phone(phoneId, model, image);
+
+    this.user.addPhone(phone);
+    return phone;
   }
-  delete todosById[id];
+
+  /**
+   * This function will be called by GraphQL.
+   * It returns all phones of the User.
+   */
+  getPhones() {
+    const phones = this.user.getPhones();
+    return phones;
+  }
+
+  /**
+   * This function will be called by Database.js.
+   * It checks for unique IDs while creating phone instances.
+   */
+  checkUniqueId(newId, phones) {
+    let isUnique = true;
+
+    if (phones.length > 0) {
+      phones.map(({ phoneId }) => {
+        if (phoneId === newId) {
+          isUnique = false;
+        }
+      }, newId);
+    }
+
+    return isUnique;
+  }
+
+  /**
+   * This function will be called by GraphQL.
+   * It returns a phone by phoneId.
+   */
+  getPhoneById(phoneId) {
+    const phones = this.user.getPhones();
+    const selectedPhone = phones.filter(phone => phone.phoneId == phoneId);
+    return selectedPhone;
+  }
+
+  /**
+   * This function will be called by GraphQL.
+   * It returns the whole User.
+   */
+  getUser() {
+    return this.user;
+  }
+
+  /**
+   * This function will be called by GraphQL.
+   * It removes a phone based on phoneId.
+   */
+  removePhoneById(phoneId) {
+    const phones = this.user.removePhoneById(phoneId);
+    return phones;
+  }
+
+  /**
+   * This function will be called by GraphQL.
+   * It updates a phone based on phoneId.
+   */
+  updatePhone(phoneId, phoneModel, phoneImage) {
+    const phones = this.user.updatePhone(phoneId, phoneModel, phoneImage);
+    return phones;
+  }
 }
 
-export function removeCompletedTodos() {
-  const todosToRemove = getTodos().filter(todo => todo.complete);
-  todosToRemove.forEach(todo => removeTodo(todo.id));
-  return todosToRemove.map(todo => todo.id);
-}
-
-export function renameTodo(id, text) {
-  const todo = getTodo(id);
-  todo.text = text;
-}
+export default Database;
