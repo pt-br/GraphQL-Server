@@ -4,11 +4,13 @@
   "private": true,
   "scripts": {
     "start": "babel-node ./scripts/updateSchema.js && babel-node ./server.js",
+    "server": "babel-node ./server.js",
     "update-schema": "babel-node ./scripts/updateSchema.js"
   },
   "dependencies": {
     "babel-preset-react-native": "1.9.0",
     "babel-relay-plugin": "0.9.2",
+    "cors": "^2.8.4",
     "express": "4.13.4",
     "express-graphql": "^0.5.4",
     "graphql": "0.6.0",
