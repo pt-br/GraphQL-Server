@@ -32,8 +32,7 @@ type PageInfo {
 }
 
 type Phone {
-  id: ID!
-  phoneId: String!
+  _id: String!
   model: String!
   image: String
 }

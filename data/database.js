@@ -22,17 +22,17 @@ class Database {
    * our User.
    */
   insertPhone(model, image) {
-    const phoneId = ShortId.generate();
+    const _id = ShortId.generate();
     const phones = this.getPhones();
 
-    const idIsUnique = this.checkUniqueId(phoneId, phones);
+    const idIsUnique = this.checkUniqueId(_id, phones);
 
     if (!idIsUnique) {
       this.insertPhone(model, image);
       return false;
     }
 
-    const phone = new Phone(phoneId, model, image);
+    const phone = new Phone(_id, model, image);
 
     this.user.addPhone(phone);
     return phone;
@@ -55,8 +55,8 @@ class Database {
     let isUnique = true;
 
     if (phones.length > 0) {
-      phones.map(({ phoneId }) => {
-        if (phoneId === newId) {
+      phones.map(({ _id }) => {
+        if (_id === newId) {
           isUnique = false;
         }
       }, newId);
@@ -67,11 +67,11 @@ class Database {
 
   /**
    * This function will be called by GraphQL.
-   * It returns a phone by phoneId.
+   * It returns a phone by _id.
    */
-  getPhoneById(phoneId) {
+  getPhoneById(_id) {
     const phones = this.user.getPhones();
-    const selectedPhone = phones.filter(phone => phone.phoneId == phoneId);
+    const selectedPhone = phones.filter(phone => phone._id == _id);
     return selectedPhone;
   }
 
@@ -85,19 +85,19 @@ class Database {
 
   /**
    * This function will be called by GraphQL.
-   * It removes a phone based on phoneId.
+   * It removes a phone based on _id.
    */
-  removePhoneById(phoneId) {
-    const phones = this.user.removePhoneById(phoneId);
+  removePhoneById(_id) {
+    const phones = this.user.removePhoneById(_id);
     return phones;
   }
 
   /**
    * This function will be called by GraphQL.
-   * It updates a phone based on phoneId.
+   * It updates a phone based on _id.
    */
-  updatePhone(phoneId, phoneModel, phoneImage) {
-    const phones = this.user.updatePhone(phoneId, phoneModel, phoneImage);
+  updatePhone(_id, phoneModel, phoneImage) {
+    const phones = this.user.updatePhone(_id, phoneModel, phoneImage);
     return phones;
   }
 }

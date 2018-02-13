@@ -14,6 +14,7 @@ import {
   connectionArgs,
   connectionDefinitions,
   connectionFromArray,
+  connectionFromPromisedArray,
   fromGlobalId,
   globalIdField,
   mutationWithClientMutationId,
@@ -22,6 +23,8 @@ import {
 
 import Database from './Database';
 const database = new Database;
+
+import MongoPhone from '../mongoose/phone';
 
 /**
  * We get the node interface and field from the Relay library.
@@ -33,9 +36,7 @@ const { nodeInterface, nodeField } = nodeDefinitions(
   (globalId) => {
     var { type, id } = fromGlobalId(globalId);
     if (type === 'User') {
-      return database.getUser;
-    } else if (type === 'Phone') {
-      return database.getPhoneById(id);
+      return database.getUser();
     } else {
       return null;
     }
@@ -44,8 +45,6 @@ const { nodeInterface, nodeField } = nodeDefinitions(
   (obj) => {
     if (obj instanceof User)  {
       return UserType;
-    } else if (obj instanceof Phone) {
-      return PhoneType;
     } else {
       return null;
     }
@@ -63,7 +62,7 @@ const UserType = new GraphQLObjectType({
     phones: {
       type: phoneConnection,
       args: connectionArgs,
-      resolve: (_, args) => connectionFromArray(database.getPhones(), args),
+      resolve: (_, args) => connectionFromPromisedArray(MongoPhone.find({}, (err, phones) => phones), args),
     },
   }),
   interfaces: [nodeInterface],
@@ -72,18 +71,14 @@ const UserType = new GraphQLObjectType({
 const PhoneType = new GraphQLObjectType({
   name: 'Phone',
   fields: () => ({
-    id: globalIdField('Phone'),
-    phoneId: {
+    _id: {
       type: new GraphQLNonNull(GraphQLString),
-      resolve: (obj) => obj.phoneId,
     },
     model: {
       type: new GraphQLNonNull(GraphQLString),
-      resolve: (obj) => obj.model,
     },
     image: {
       type: GraphQLString,
-      resolve: (obj) => obj.image,
     },
   }),
 });

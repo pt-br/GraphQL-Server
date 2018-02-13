@@ -24,20 +24,20 @@ class User {
 
   /**
    * This function will be called by Database.js.
-   * It removes a phone based on phoneId.
+   * It removes a phone based on _id.
    */
-  removePhoneById(phoneId) {
-    this.phones = this.phones.filter(phone => phone.phoneId !== phoneId);
+  removePhoneById(_id) {
+    this.phones = this.phones.filter(phone => phone._id !== _id);
     return this.phones;
   }
 
   /**
    * This function will be called by GraphQL.
-   * It updates a phone based on phoneId.
+   * It updates a phone based on _id.
    */
-  updatePhone(phoneId, phoneModel, phoneImage) {
+  updatePhone(_id, phoneModel, phoneImage) {
     this.phones.map(phone => {
-      if (phone.phoneId == phoneId) {
+      if (phone._id == _id) {
         /**
          * Only update values if they are not empty.
          */

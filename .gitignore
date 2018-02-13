@@ -39,3 +39,6 @@ buck-out/
 \.buckd/
 android/app/libs
 android/keystores/debug.keystore
+
+#db config
+mongoose/connectionConfig.js
