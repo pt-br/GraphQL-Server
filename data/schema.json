@@ -596,7 +596,7 @@
           "description": null,
           "fields": [
             {
-              "name": "allPhones",
+              "name": "newPhone",
               "description": null,
               "args": [],
               "type": {
@@ -679,7 +679,7 @@
               "args": [],
               "type": {
                 "kind": "OBJECT",
-                "name": "Phone",
+                "name": "Phones",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -777,7 +777,7 @@
               "args": [],
               "type": {
                 "kind": "OBJECT",
-                "name": "Phone",
+                "name": "Phones",
                 "ofType": null
               },
               "isDeprecated": false,

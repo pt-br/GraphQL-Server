@@ -10,7 +10,7 @@ input AddPhoneInput {
 }
 
 type AddPhonePayload {
-  allPhones: Phone
+  newPhone: Phone
   clientMutationId: String!
 }
 
@@ -64,7 +64,7 @@ input RemovePhoneInput {
 }
 
 type RemovePhonePayload {
-  allPhones: Phone
+  allPhones: Phones
   clientMutationId: String!
 }
 
@@ -76,6 +76,6 @@ input UpdatePhoneInput {
 }
 
 type UpdatePhonePayload {
-  allPhones: Phone
+  allPhones: Phones
   clientMutationId: String!
 }

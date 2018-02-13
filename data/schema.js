@@ -78,7 +78,7 @@ const PhoneType = new GraphQLObjectType({
 /**
  * Define a connection type to connect Phone with Phones
  */
-const { connectionType: phoneConnection } =
+const { connectionType: phoneConnection, edgeType: PhoneEdge } =
   connectionDefinitions({ name: 'Phone', nodeType: PhoneType });
 
 const AddPhoneMutation = mutationWithClientMutationId({
@@ -92,14 +92,28 @@ const AddPhoneMutation = mutationWithClientMutationId({
     },
   },
   outputFields: {
-    allPhones: {
-      type: PhonesType,
-      resolve: () => MongoPhone.find({}, (error, phones) => phones),
+    // allPhones: {
+    //   type: PhonesType,
+    //   resolve: () => MongoPhone.find({}, (error, phones) => phones),
+    // },
+    newPhone: {
+      type: PhoneType,
+      resolve: (payload) => MongoPhone.findOne({ '_id': payload._id }, (error, phone) => phone),
     },
   },
   mutateAndGetPayload: ({ model, image }) => {
-    const newPhone = database.insertPhone(model, image);
-    return newPhone;
+    const phone = new MongoPhone({
+      image: image,
+      model: model,
+     });
+
+    phone.save((error, result) => {
+      if (error) {
+        return error
+      }
+      
+      return phone;
+    });
   },
 });
 
