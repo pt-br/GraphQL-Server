@@ -58,7 +58,8 @@ input RemovePhoneInput {
 }
 
 type RemovePhonePayload {
-  viewer: User
+  removedPhoneMessage: String
+  removedPhoneId: String
   clientMutationId: String!
 }
 

@@ -103,13 +103,9 @@ const AddPhoneMutation = mutationWithClientMutationId({
     },
   },
   outputFields: {
-    // viewer: {
-    //   type: UserType,
-    //   resolve: () => MongoPhone.find({}, (error, phones) => phones),
-    // },
     newPhone: {
       type: PhoneType,
-      resolve: (payload) => { return { _id: '3243253', model: 'cuck', image: 'fwfwa.jpg'} },
+      resolve: (payload) => MongoPhone.findOne({ '_id': payload.newPhoneId }, (error, phone) => phone),
     },
   },
   mutateAndGetPayload: ({ model, image }) => {
@@ -118,13 +114,10 @@ const AddPhoneMutation = mutationWithClientMutationId({
       model: model,
      });
 
-    phone.save((error, result) => {
-      if (error) {
-        return error
-      }
-      
-      return phone;
-    });
+    /**
+     * Return the payload to the outputFields
+     */
+    return phone.save().then(newPhone => ({ newPhoneId: newPhone._id }));
   },
 });
 
@@ -136,14 +129,20 @@ const RemovePhoneMutation = mutationWithClientMutationId({
     },
   },
   outputFields: {
-    viewer: {
-      type: UserType,
-      resolve: () => MongoPhone.find({}, (error, phones) => phones),
+    removedPhoneMessage: {
+      type: GraphQLString,
+      resolve: (payload) => `Phone(id: ${payload.removedPhoneId}) has been removed.`,
+    },
+    removedPhoneId: {
+      type: GraphQLString,
+      resolve: (payload) => payload.removedPhoneId,
     },
   },
   mutateAndGetPayload: ({ phoneId }) => {
-    const remainingPhones = database.removePhoneById(phoneId);
-    return remainingPhones;
+    /**
+     * Return the payload to the outputFields
+     */
+    return MongoPhone.findOneAndRemove({ '_id': phoneId }).then(removedPhone => ({ removedPhoneId: removedPhone._id }));
   },
 });
 
