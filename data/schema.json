@@ -784,12 +784,12 @@
           "description": null,
           "fields": [
             {
-              "name": "viewer",
+              "name": "updatedPhone",
               "description": null,
               "args": [],
               "type": {
                 "kind": "OBJECT",
-                "name": "User",
+                "name": "Phone",
                 "ofType": null
               },
               "isDeprecated": false,

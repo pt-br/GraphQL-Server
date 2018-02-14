@@ -21,9 +21,6 @@ import {
   nodeDefinitions,
 } from 'graphql-relay';
 
-import Database from './Database';
-const database = new Database;
-
 import MongoPhone from '../mongoose/phone';
 
 /**
@@ -142,7 +139,8 @@ const RemovePhoneMutation = mutationWithClientMutationId({
     /**
      * Return the payload to the outputFields
      */
-    return MongoPhone.findOneAndRemove({ '_id': phoneId }).then(removedPhone => ({ removedPhoneId: removedPhone._id }));
+    return MongoPhone.findOneAndRemove({ '_id': phoneId })
+      .then(removedPhone => ({ removedPhoneId: removedPhone._id }));
   },
 });
 
@@ -160,14 +158,21 @@ const UpdatePhoneMutation = mutationWithClientMutationId({
     },
   },
   outputFields: {
-    viewer: {
-      type: UserType,
-      resolve: () => MongoPhone.find({}, (error, phones) => phones),
+    updatedPhone: {
+      type: PhoneType,
+      resolve: (payload) => MongoPhone.findOne({ '_id': payload.updatedPhoneId }, (error, phone) => phone),
     },
   },
   mutateAndGetPayload: ({ phoneId, phoneModel, phoneImage }) => {
-    const updatedPhones = database.updatePhone(phoneId, phoneModel, phoneImage);
-    return updatedPhones;
+    /**
+     * Return the payload to the outputFields.
+     * 
+     * Will not return something from the response because when
+     * updating objects, the query response from MongoDB doesn't display
+     * a updated object, instead, just a success message.
+     */
+    return MongoPhone.update({ '_id': phoneId }, { model: phoneModel, image: phoneImage})
+      .then(() => ({ updatedPhoneId: phoneId })); 
   },
 });
 

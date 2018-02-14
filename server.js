@@ -2,7 +2,6 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import graphqlHTTP from 'express-graphql';
-import { printSchema } from 'graphql';
 import { Schema } from './data/schema';
 import { url } from './mongoose/connectionConfig';
 
@@ -21,26 +20,9 @@ app.use('/graphql', graphqlHTTP({
   graphiql: true
 }));
 
-app.use('/savePhone', (req,res) => {
-  const phone = new Phone({
-   image: "test.jpg",
-   model: "Italo Bosta",
-  });
-
-  phone.save((err, result) => {
-    if (err) {
-      console.log(`[ERROR] Failed to save a Phone. Error message: ${err}`);
-    }
-
-    console.log(`[SERVER] Saved a new Phone: ${phone}`);
-    res.redirect('/');
-  });
-});
-
-
 db.on('error', () => console.log(
   `
-    [ERROR] Failed to establish connection to MongoDB
+    [ERROR] Failed to establish connection to MongoDB.
   `
   )
 );

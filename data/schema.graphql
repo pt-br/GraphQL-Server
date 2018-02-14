@@ -71,7 +71,7 @@ input UpdatePhoneInput {
 }
 
 type UpdatePhonePayload {
-  viewer: User
+  updatedPhone: Phone
   clientMutationId: String!
 }
 
