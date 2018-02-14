@@ -71,7 +71,7 @@ mutation {
 mutation {
   removePhone (input: {phoneId: "5a80bc02d5a72461d1b1bf1a", clientMutationId: "123"}) {
     removedPhoneMessage
-		removedPhoneId
+    removedPhoneId
   }
 }
 ```
