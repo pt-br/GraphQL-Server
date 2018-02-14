@@ -47,15 +47,9 @@ type PhoneEdge {
   cursor: String!
 }
 
-type Phones implements Node {
-  id: ID!
-  phones(after: String, first: Int, before: String, last: Int): PhoneConnection
-}
-
 type Query {
   node(id: ID!): Node
-  allPhones: Phones
-  phone(phoneId: String): Phone
+  viewer: User
 }
 
 input RemovePhoneInput {
@@ -64,7 +58,7 @@ input RemovePhoneInput {
 }
 
 type RemovePhonePayload {
-  allPhones: Phones
+  viewer: User
   clientMutationId: String!
 }
 
@@ -76,6 +70,12 @@ input UpdatePhoneInput {
 }
 
 type UpdatePhonePayload {
-  allPhones: Phones
+  viewer: User
   clientMutationId: String!
+}
+
+type User implements Node {
+  id: ID!
+  phones(after: String, first: Int, before: String, last: Int): PhoneConnection
+  phoneById(phoneId: String): Phone
 }

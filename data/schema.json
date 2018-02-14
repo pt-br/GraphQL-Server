@@ -42,35 +42,12 @@
               "deprecationReason": null
             },
             {
-              "name": "allPhones",
+              "name": "viewer",
               "description": null,
               "args": [],
               "type": {
                 "kind": "OBJECT",
-                "name": "Phones",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "phone",
-              "description": null,
-              "args": [
-                {
-                  "name": "phoneId",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Phone",
+                "name": "User",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -120,14 +97,14 @@
           "possibleTypes": [
             {
               "kind": "OBJECT",
-              "name": "Phones",
+              "name": "User",
               "ofType": null
             }
           ]
         },
         {
           "kind": "OBJECT",
-          "name": "Phones",
+          "name": "User",
           "description": null,
           "fields": [
             {
@@ -194,6 +171,29 @@
               "type": {
                 "kind": "OBJECT",
                 "name": "PhoneConnection",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "phoneById",
+              "description": null,
+              "args": [
+                {
+                  "name": "phoneId",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Phone",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -674,12 +674,12 @@
           "description": null,
           "fields": [
             {
-              "name": "allPhones",
+              "name": "viewer",
               "description": null,
               "args": [],
               "type": {
                 "kind": "OBJECT",
-                "name": "Phones",
+                "name": "User",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -772,12 +772,12 @@
           "description": null,
           "fields": [
             {
-              "name": "allPhones",
+              "name": "viewer",
               "description": null,
               "args": [],
               "type": {
                 "kind": "OBJECT",
-                "name": "Phones",
+                "name": "User",
                 "ofType": null
               },
               "isDeprecated": false,

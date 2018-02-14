@@ -39,23 +39,34 @@ const { nodeInterface, nodeField } = nodeDefinitions(
   },
 
   (obj) => {
-    if (obj instanceof Phones)  {
-      return PhonesType;
+    if (obj instanceof User)  {
+      return UserType;
+    } else if (obj instanceof Phone)  {
+      return PhoneType;
     } else {
       return null;
     }
   }
 );
 
-const PhonesType = new GraphQLObjectType({
-  name: 'Phones',
+const UserType = new GraphQLObjectType({
+  name: 'User',
   fields: () => ({
-    id: globalIdField('Phones'),
+    id: globalIdField('User'),
     phones: {
       type: phoneConnection,
       args: connectionArgs,
       resolve: (_, args) => connectionFromPromisedArray(MongoPhone.find({}, (err, phones) => phones), args),
-    }
+    },
+    phoneById: {
+      type: PhoneType,
+      args: {
+        phoneId: {
+          type: GraphQLString,
+        }
+      },
+      resolve: (_, args) => MongoPhone.findOne({ '_id': args.phoneId }, (error, phone) => phone),
+    },
   }),
   interfaces: [nodeInterface],
 });
@@ -76,7 +87,7 @@ const PhoneType = new GraphQLObjectType({
 });
 
 /**
- * Define a connection type to connect Phone with Phones
+ * Define a connection type to connect Phone with User
  */
 const { connectionType: phoneConnection, edgeType: PhoneEdge } =
   connectionDefinitions({ name: 'Phone', nodeType: PhoneType });
@@ -92,13 +103,13 @@ const AddPhoneMutation = mutationWithClientMutationId({
     },
   },
   outputFields: {
-    // allPhones: {
-    //   type: PhonesType,
+    // viewer: {
+    //   type: UserType,
     //   resolve: () => MongoPhone.find({}, (error, phones) => phones),
     // },
     newPhone: {
       type: PhoneType,
-      resolve: (payload) => MongoPhone.findOne({ '_id': payload._id }, (error, phone) => phone),
+      resolve: (payload) => { return { _id: '3243253', model: 'cuck', image: 'fwfwa.jpg'} },
     },
   },
   mutateAndGetPayload: ({ model, image }) => {
@@ -125,8 +136,8 @@ const RemovePhoneMutation = mutationWithClientMutationId({
     },
   },
   outputFields: {
-    allPhones: {
-      type: PhonesType,
+    viewer: {
+      type: UserType,
       resolve: () => MongoPhone.find({}, (error, phones) => phones),
     },
   },
@@ -150,8 +161,8 @@ const UpdatePhoneMutation = mutationWithClientMutationId({
     },
   },
   outputFields: {
-    allPhones: {
-      type: PhonesType,
+    viewer: {
+      type: UserType,
       resolve: () => MongoPhone.find({}, (error, phones) => phones),
     },
   },
@@ -169,18 +180,9 @@ const Root = new GraphQLObjectType({
   name: 'Query',
   fields: () => ({
     node: nodeField,
-    allPhones: {
-      type: PhonesType,
+    viewer: {
+      type: UserType,
       resolve: () => true,
-    },
-    phone: {
-      type: PhoneType,
-      args: {
-        phoneId: {
-          type: GraphQLString,
-        }
-      },
-      resolve: (_, args) => MongoPhone.findOne({ '_id': args.phoneId }, (error, phone) => phone),
     },
   }),
 });
