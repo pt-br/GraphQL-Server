@@ -2,6 +2,8 @@
 
 Complete docs to setup the environment soon.
 
+You can combine this boilerplate with my [Relay Modern Boilerplate](https://github.com/pt-br/relay-modern-boilerplate) (using Mongoose).
+
 ## GraphiQL queries/mutations examples:
 
 ### Fetch Phones
