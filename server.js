@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import helmet from 'helmet'; 
 import graphqlHTTP from 'express-graphql';
 import { Schema } from './data/schema';
 import { url } from './mongoose/connectionConfig';
@@ -15,6 +16,9 @@ const app = express();
 const db = mongoose.connection;
 
 app.use(cors());
+
+app.use(helmet());
+
 app.use('/graphql', graphqlHTTP({
   schema: Schema,
   graphiql: true
