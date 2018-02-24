@@ -10,4 +10,6 @@ const config = {
   authSource: 'admin',
 }
 
-export const url = `mongodb://${config.user}:${config.password}@localhost:27017/${config.database}?ssl=true&replicaSet=storage-shard-0&authSource=${config.authSource}`;
+const url = `mongodb://${config.user}:${config.password}@localhost:27017/${config.database}?ssl=true&replicaSet=storage-shard-0&authSource=${config.authSource}`;
+
+module.exports = url;

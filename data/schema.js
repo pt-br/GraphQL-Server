@@ -1,4 +1,4 @@
-import {
+const {
   GraphQLBoolean,
   GraphQLFloat,
   GraphQLID,
@@ -8,9 +8,9 @@ import {
   GraphQLObjectType,
   GraphQLSchema,
   GraphQLString,
-} from 'graphql';
+} = require('graphql');
 
-import {
+const {
   connectionArgs,
   connectionDefinitions,
   connectionFromArray,
@@ -19,9 +19,9 @@ import {
   globalIdField,
   mutationWithClientMutationId,
   nodeDefinitions,
-} from 'graphql-relay';
+} = require('graphql-relay');
 
-import MongoPhone from '../mongoose/phone';
+const MongoPhone = require('../mongoose/phone');
 
 /**
  * We get the node interface and field from the Relay library.
@@ -208,7 +208,9 @@ const Mutation = new GraphQLObjectType({
  * Finally, we construct our schema (whose starting query type is the query
  * type we defined above) and export it.
  */
-export const Schema = new GraphQLSchema({
+const Schema = new GraphQLSchema({
   query: Root,
   mutation: Mutation,
 });
+
+module.exports = Schema;

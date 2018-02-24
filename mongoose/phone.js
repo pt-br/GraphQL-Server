@@ -1,10 +1,10 @@
-import mongoose, { Schema } from 'mongoose';
+const mongoose = require('mongoose');
 
-const phoneSchema = new Schema({
+const phoneSchema = new mongoose.Schema({
   image: String,
   model: String,
 }, {collection:"phones"});
 
 const Phone = mongoose.model('Phone', phoneSchema);
 
-export default Phone;
+module.exports = Phone;

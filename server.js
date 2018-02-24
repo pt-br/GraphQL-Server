@@ -1,14 +1,14 @@
-import express from 'express';
-import mongoose from 'mongoose';
-import cors from 'cors';
-import helmet from 'helmet'; 
-import graphqlHTTP from 'express-graphql';
-import { Schema } from './data/schema';
-import { url } from './mongoose/connectionConfig';
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const helmet = require('helmet'); 
+const graphqlHTTP = require('express-graphql');
+const Schema = require('./data/schema');
+const url = require('./mongoose/connectionConfig');
 
-import Phone from './mongoose/phone';
+const Phone = require('./mongoose/phone');
 
-const GRAPHQL_PORT = process.env.PORT || 8080;
+const EXPRESS_PORT = process.env.PORT || 8080;
 
 mongoose.connect(url);
 
@@ -34,12 +34,12 @@ db.on('error', () => console.log(
 db.once('open', () => console.log(
   `
     [SERVER] Connected to MongoDB
-    [SERVER] GraphQL Server is now running on port ${GRAPHQL_PORT}
+    [SERVER] GraphQL Server is now running on port ${EXPRESS_PORT}
   `
   )
 );
 
-app.listen(GRAPHQL_PORT, () => console.log(
+app.listen(EXPRESS_PORT, () => console.log(
   `
     [SERVER] GraphQL started...
     [SERVER] Waiting for MongoDB connection...

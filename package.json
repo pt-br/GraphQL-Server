@@ -3,9 +3,9 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "babel-node ./scripts/updateSchema.js && babel-node ./server.js",
-    "server": "babel-node ./server.js",
-    "update-schema": "babel-node ./scripts/updateSchema.js"
+    "dev": "yarn update-schema && node ./server.js",
+    "start": "node ./server.js",
+    "update-schema": "node ./scripts/updateSchema.js"
   },
   "dependencies": {
     "cors": "^2.8.4",
