@@ -13,7 +13,7 @@ const posts = [
 ];
 
 // Resolvers define the technique for fetching the types in the
-// schema.  We'll retrieve books from the "books" array above.
+// schema.
 const resolvers = {
   Query: {
     posts() {

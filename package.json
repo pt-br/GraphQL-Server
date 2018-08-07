@@ -4,14 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "nodemon ./server.js",
-    "start": "node ./server.js",
-    "update-schema": "node ./scripts/updateSchema.js"
+    "start": "node ./server.js"
   },
   "dependencies": {
     "apollo-server": "^2.0.0",
-    "graphql": "^0.13.2",
-    "mongoose": "^5.0.4",
-    "shortid": "^2.2.8"
+    "graphql": "^0.13.2"
   },
   "devDependencies": {
     "nodemon": "^1.18.3"
