@@ -1,6 +1,6 @@
 # GraphQL-Server
 
-Complete docs to setup the environment soon.
+This is a GraphQL server built with Apollo Server and uses mock data for reference.
 
 You can combine this boilerplate with my [apollo boilerplate](https://github.com/pt-br/apollo-boilerplate).
 
