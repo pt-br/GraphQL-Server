@@ -4,8 +4,6 @@ const { typeDefs, resolvers } = require("./graphql/schema");
 const mongoose = require("mongoose");
 const url = require("./mongoose/connectionConfig");
 
-const Phone = require("./mongoose/phone");
-
 mongoose.connect(url);
 const db = mongoose.connection;
 
@@ -29,7 +27,7 @@ db.once('open', () =>
   console.log(
     `
     [SERVER] Connected to MongoDB
-    [SERVER] Everyting up and running!
+    [SERVER] Everything up and running!
   `
   )
 );

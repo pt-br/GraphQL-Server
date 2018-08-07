@@ -3,32 +3,22 @@ const { gql } = require('apollo-server');
 // Type definitions define the "shape" of your data and specify
 // which ways the data can be fetched from the GraphQL server.
 const typeDefs = gql`
-  type Author {
+  type Phone {
     id: ID! # the ! means that every author object _must_ have an id
-    firstName: String
-    lastName: String
-    """
-    the list of Posts by this author
-    """
-    posts: [Post]
-  }
-
-  type Post {
-    id: ID!
-    title: String
-    author: Author
-    votes: Int
+    model: String!
+    image: String
   }
 
   # the schema allows the following query:
   type Query {
-    posts: [Post]
-    author(id: Int!): Author
+    phones(id: String): [Phone]
   }
 
   # this schema allows the following mutation:
   type Mutation {
-    upvotePost(postId: ID!): Post
+    addPhone(model: String!, image: String): Phone,
+    removePhone(id: String!): Phone,
+    updatePhone(id: String!, model: String, image: String): Phone,
   }
 
   # we need to tell the server which types represent the root query

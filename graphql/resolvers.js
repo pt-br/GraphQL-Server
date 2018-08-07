@@ -1,44 +1,38 @@
-// Mock Data
-const authors = [
-  { id: 1, firstName: 'Tom', lastName: 'Coleman' },
-  { id: 2, firstName: 'Sashko', lastName: 'Stubailo' },
-  { id: 3, firstName: 'Mikhail', lastName: 'Novikov' },
-];
-
-const posts = [
-  { id: 1, authorId: 1, title: 'Introduction to GraphQL', votes: 2 },
-  { id: 2, authorId: 2, title: 'Welcome to Apollo', votes: 3 },
-  { id: 3, authorId: 2, title: 'Advanced GraphQL', votes: 1 },
-  { id: 4, authorId: 3, title: 'Launchpad is Cool', votes: 7 },
-];
+const MongoPhone = require("../mongoose/phone");
 
 // Resolvers define the technique for fetching the types in the
 // schema.
 const resolvers = {
   Query: {
-    posts() {
-      return posts;
-    },
-    author: (_, { id }) => authors.find(author => author.id === parseInt(id, 10))
+    phones(_, { id }) {
+      if (id) {
+        return MongoPhone.find({ _id: id }, (error, phone) => phone);
+      }
+
+      return MongoPhone.find({}, (err, phones) => phones);
+    }
   },
   Mutation: {
-    upvotePost(_, { postId }) {
-      const post = posts.find(post => post.id === parseInt(postId, 10));
-      if (!post) {
-        throw new Error(`Couldn't find post with id ${postId}`);
-      }
-      post.votes += 1;
-      return post;
-    }
-  },
-  Author: {
-    posts(author) {
-      return posts.filter(post => post.authorId === author.id);
-    }
-  },
-  Post: {
-    author(post) {
-      return authors.find(author => author.id === post.authorId);
+    addPhone(_, { model, image }) {
+      const phone = new MongoPhone({
+        image: image,
+        model: model
+      });
+
+      return phone.save().then(newPhone => newPhone);
+    },
+    removePhone(_, { id }) {
+      return MongoPhone.findOneAndRemove({ _id: id }).then(
+        removedPhone => removedPhone
+      );
+    },
+    updatePhone(_, { id, model, image }) {
+      return MongoPhone.findByIdAndUpdate(
+        id,
+        { $set: { model, image } },
+        { new: true },
+        (err, updatedPhone) => updatedPhone
+      );
     }
   }
 };
