@@ -4,7 +4,7 @@ This is a GraphQL server built with Apollo Server and uses mock data for referen
 
 You can combine this boilerplate with my [apollo boilerplate](https://github.com/pt-br/apollo-boilerplate).
 
-## GraphiQL queries/mutations examples:
+## Playground queries/mutations examples:
 
 ### Fetch Posts
 
