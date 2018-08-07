@@ -23,6 +23,7 @@ const typeDefs = gql`
   # the schema allows the following query:
   type Query {
     posts: [Post]
+    author(id: Int!): Author
   }
 
   # this schema allows the following mutation:

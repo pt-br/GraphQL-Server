@@ -18,7 +18,8 @@ const resolvers = {
   Query: {
     posts() {
       return posts;
-    }
+    },
+    author: (_, { id }) => authors.find(author => author.id === parseInt(id, 10))
   },
   Mutation: {
     upvotePost(_, { postId }) {
