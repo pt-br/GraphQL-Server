@@ -20,7 +20,7 @@ In case you want to run this right after cloning, make sure to config your datab
 }
 ```
 
-## GraphiQL queries/mutations examples:
+## Playground queries/mutations examples:
 
 ### Fetch Phones
 
